@@ -48,6 +48,13 @@
     "src",
     "!*/__tests__"
   ],
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts",
+    "exec": "npm start"
+  },
   "dependencies": {
     "@loopback/boot": "^4.0.1",
     "@loopback/core": "^3.0.1",
