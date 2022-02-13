@@ -1,15 +1,20 @@
 import { repository } from "@loopback/repository";
-import { FreelancerRepository } from "../repositories";
+import { FreelancerRepository, UserRepository } from "../repositories";
 import { Freelancer } from "../models";
 import { getModelSchemaRef, post, requestBody } from "@loopback/rest";
 
+const config = {
+  base: "/freelancer"
+};
+
 export class FreelancerController {
   constructor(
-    @repository(FreelancerRepository) public freelancerRepository: FreelancerRepository
+    @repository(FreelancerRepository) public freelancerRepository: FreelancerRepository,
+    @repository(UserRepository) public userRepository: UserRepository
   ) {
   }
 
-  @post("/freelancer", {
+  @post(`${config.base}`, {
     responses: {
       "200": {
         description: "Todo model instance",
@@ -20,16 +25,17 @@ export class FreelancerController {
   async create(
     @requestBody({
       content: {
-        'application/json': {
-          schema: getModelSchemaRef(Freelancer, {
-            title: 'NewTodo',
-            exclude: ['id'],
-          }),
-        },
-      },
+        "application/json": {
+          schema: getModelSchemaRef(Freelancer, { exclude: ["id"] })
+        }
+      }
     })
-      freelancer: Omit<Freelancer, 'id'>,
-  ): Promise<Freelancer> {
-    return this.freelancerRepository.create(freelancer);
+      freelancer: Omit<Freelancer, "id">
+  ): Promise<object> {
+    await this.freelancerRepository.create(freelancer);
+    // todo buraya throw Error midware gelecek
+    return {
+      message: "User created"
+    };
   }
 }

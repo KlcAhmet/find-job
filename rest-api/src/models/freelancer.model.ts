@@ -1,17 +1,11 @@
-import { Entity, model, property } from "@loopback/repository";
+import {
+  Entity,
+  model,
+  property
+} from "@loopback/repository";
 
 @model()
-export class Private extends Entity {
-  @property({
-    required: true
-  })
-  password: string;
-
-  @property() refreshToken: string;
-}
-
-@model()
-export class Other extends Entity {
+class Other extends Entity {
   @property({
     required: true
   })
@@ -24,16 +18,16 @@ export class Other extends Entity {
 }
 
 @model()
-export class Jobs extends Entity {
+class Jobs extends Entity {
   @property({
     type: "array",
     itemType: "string"
   })
-  offeredJobs: string[];
+  offeredJobs?: string[];
 }
 
 @model()
-export class Information extends Entity {
+class Information extends Entity {
   @property({
     required: true
   })
@@ -47,18 +41,13 @@ export class Information extends Entity {
   @property({
     required: true
   })
-  email: string;
-
-  @property({
-    required: true
-  })
   phoneNumber: string;
 
   @property({
     type: "array",
     itemType: "object"
   })
-  other: Other[];
+  other?: Other[];
 }
 
 @model({
@@ -74,16 +63,21 @@ export class Freelancer extends Entity {
   })
   id: string;
 
+  @property({
+    type: "string",
+    id: true,
+    mongodb: { dataType: "ObjectId" },
+    required: true
+  })
+  _userId: string;
+
   @property() type: string;
 
   @property()
-  private: Private;
+  information?: Information;
 
   @property()
-  information: Information;
-
-  @property()
-  jobs: Jobs;
+  jobs?: Jobs;
 
   constructor(data?: Partial<Freelancer>) {
     super(data);

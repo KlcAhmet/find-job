@@ -24,9 +24,16 @@ export class UserController {
     })
       user: Omit<User, "id">
   ): Promise<object> {
+    // todo mail adresi benzersiz olmalı!
+    /*await this.userRepository.findOne({
+      where: {
+        mail: user.mail
+      },
+    })*/
     await this.userRepository.create(user);
+    // todo buraya throw Error midware gelecek
     return {
       message: "User created"
-    }
+    };
   }
 }
