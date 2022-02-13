@@ -27,7 +27,7 @@ export class Other extends Entity {
 export class Jobs extends Entity {
   @property({
     type: "array",
-    itemType: "string",
+    itemType: "string"
   })
   offeredJobs: string[];
 }
@@ -58,26 +58,31 @@ export class Information extends Entity {
     type: "array",
     itemType: "object"
   })
-  other?: Other[];
+  other: Other[];
 }
 
-@model()
+@model({
+  settings: {
+    strictObjectIDCoercion: true
+  }
+})
 export class Freelancer extends Entity {
+  @property({
+    type: "string",
+    id: true,
+    mongodb: { dataType: "ObjectId" }
+  })
+  id: string;
+
   @property() type: string;
 
-  @property({
-    type: "object"
-  })
+  @property()
   private: Private;
 
-  @property({
-    type: "object"
-  })
+  @property()
   information: Information;
 
-  @property({
-    type: "object"
-  })
+  @property()
   jobs: Jobs;
 
   constructor(data?: Partial<Freelancer>) {
