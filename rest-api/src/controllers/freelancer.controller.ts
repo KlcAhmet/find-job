@@ -17,7 +17,6 @@ export class FreelancerController {
   @post(`${config.base}`, {
     responses: {
       "200": {
-        description: "Todo model instance",
         content: { "application/json": { schema: getModelSchemaRef(Freelancer) } }
       }
     }
